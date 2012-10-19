@@ -3,13 +3,14 @@
 #include <lua.h>
 
 int lsass_compile(lua_State *L) {
+    char* source = (char*)luaL_checkstring(L, 1);
     struct sass_context* ctx = sass_new_context();
     int ret;
 
     ctx->options.include_paths = "";
     ctx->options.image_path = "images";
     ctx->options.output_style = SASS_STYLE_NESTED;
-    ctx->source_string = (char*)luaL_checkstring(L, 1);
+    ctx->source_string = source;
 
     sass_compile(ctx);
 
