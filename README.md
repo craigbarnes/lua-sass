@@ -11,27 +11,39 @@ Usage
 -----
 
 Loading the `sass` module returns a single function, which takes a string of
-SCSS and returns a string of compiled CSS on success, or `nil, errmsg`
-on failure.
-
-The following idiom can be used to simply throw an error (passing on the
-correct error messsage) on failure:
+SCSS and returns a string of CSS, or `nil, errmsg` on failure
 
 ```lua
 local sass = require "sass"
-local css = assert(sass "$x: red; div {color: $x}")
+local css = sass "$x: red; div {color: $x}"
 print(css)
 ```
 
-or alternatively error handling can be handled explicitly:
+Error Handling
+--------------
+
+The above example will simply print `nil` on failure. Obviously some kind of
+error handling is required for such cases. The most simple solution is the
+following Lua idiom, which wraps the function call with `assert()` and passes
+any error message to `error()` on failure.
 
 ```lua
 local sass = require "sass"
-local css, err = sass "$x: red; div {color: $x}"
-if not err then
+local css = assert(sass "div {color: $x}")
+print(css)
+```
+
+Alternatively, errors can be handled explicitly by checking the return value
+of `errmsg`:
+
+```lua
+local sass = require "sass"
+local css, errmsg = sass "div {color: $x}"
+if not errmsg then
     print(css)
 else
-    -- Your error handling here
+    io.stderr:write("Error: " .. errmsg)
+    -- Error handling goes here
 end
 ```
 
