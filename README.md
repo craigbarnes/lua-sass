@@ -17,19 +17,23 @@ on failure.
 The following idiom can be used to simply throw an error (passing on the
 correct error messsage) on failure:
 
-    local sass = require "sass"
-    local css = assert(sass "$x: red; div {color: $x}")
-    print(css)
+```lua
+local sass = require "sass"
+local css = assert(sass "$x: red; div {color: $x}")
+print(css)
+```
 
 or alternatively error handling can be handled explicitly:
 
-    local sass = require "sass"
-    local css, err = sass "$x: red; div {color: $x}"
-    if not err then
-        print(css)
-    else
-        -- Your error handling here
-    end
+```lua
+local sass = require "sass"
+local css, err = sass "$x: red; div {color: $x}"
+if not err then
+    print(css)
+else
+    -- Your error handling here
+end
+```
 
 [License](http://en.wikipedia.org/wiki/ISC_license "ISC license")
 ---------
