@@ -11,8 +11,8 @@ Usage
 -----
 
 Loading the `sass` module returns a single function, which takes a string of
-SCSS and returns either a string of compiled CSS on success, or
-`nil, errmsg` on failure.
+SCSS and returns a string of compiled CSS on success, or `nil, errmsg`
+on failure.
 
 The following idiom can be used to simply throw an error (passing on the
 correct error messsage) on failure:
