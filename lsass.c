@@ -3,7 +3,7 @@
 #include <lua.h>
 
 int lsass_compile(lua_State *L) {
-    char* source = (char*)luaL_checkstring(L, 1);
+    const char *source = luaL_checkstring(L, 1);
     struct sass_context* ctx = sass_new_context();
     int ret;
 
