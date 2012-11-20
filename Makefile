@@ -14,8 +14,8 @@ uninstall:
 	rm -f $(DESTDIR)$(LIBDIR)/sass.so
 
 test: sass.so
-	@lua -e 'local sass = require "sass" assert(sass "a {color: red}")'
-	@echo "Sanity test passed"
+	@lua test.lua
+	@echo "All tests passed"
 
 clean:
 	rm -f sass.so lsass.o
