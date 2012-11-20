@@ -68,13 +68,13 @@ int lsass_compile_file(lua_State *L) {
     return ret;
 }
 
-static const luaL_reg lsass_namespace[] = {
+static const luaL_reg R[] = {
     {"compile", lsass_compile},
     {"compile_file", lsass_compile_file},
     {NULL, NULL}
 };
 
-int luaopen_sass(lua_State *L) {
-    luaL_register(L, "sass", lsass_namespace);
+LUALIB_API int luaopen_sass(lua_State *L) {
+    luaL_register(L, "sass", R); /* luaL_newlib(L, R) for 5.2 */
     return 1;
 }
