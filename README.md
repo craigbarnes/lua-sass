@@ -1,6 +1,6 @@
 lua-sass
 ========
-Lua binding to [libsass](https://github.com/hcatlin/libsass)
+Lua bindings for [libsass]
 
 Installation
 ------------
@@ -10,14 +10,27 @@ Installation
 Usage
 -----
 
-Loading the `sass` module returns a single function, which takes a string of
-SCSS and returns a string of CSS, or `nil, errmsg` on failure
+The `sass` module provides 2 functions, which are named in accordance with
+their [libsass] counterparts:
+
+#### sass.compile(scss_string)
 
 ```lua
 local sass = require "sass"
-local css = sass "$x: red; div {color: $x}"
+local css = sass.compile "$x: red; div {color: $x}"
 print(css)
 ```
+
+#### sass.compile_file(filename)
+
+```lua
+local sass = require "sass"
+local css = sass.compile_file "file.scss"
+print(css)
+```
+
+If any errors are encountered when calling either function, `nil, errmsg`
+will be returned.
 
 Error Handling
 --------------
@@ -29,17 +42,16 @@ any error message to `error()` on failure.
 
 ```lua
 local sass = require "sass"
-local css = assert(sass "div {color: $x}")
+local css = assert(sass.compile "div {color: $x}")
 print(css)
 ```
 
-Alternatively, errors can be handled explicitly by checking the return value
-of `errmsg`:
+Alternatively, errors can be handled explicitly by checking the return values:
 
 ```lua
 local sass = require "sass"
-local css, errmsg = sass "div {color: $x}"
-if not errmsg then
+local css, errmsg = sass.compile "div {color: $x}"
+if css then
     print(css)
 else
     io.stderr:write("Error: " .. errmsg)
@@ -63,3 +75,6 @@ SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
 WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION
 OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+
+[libsass]: https://github.com/hcatlin/libsass
