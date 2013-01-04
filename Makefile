@@ -1,7 +1,7 @@
 PREFIX  = /usr/local
 LIBDIR  = $(PREFIX)/lib/lua/5.1
 CFLAGS  = -O2 -Wall -fPIC
-LDFLAGS = -shared -fPIC
+LDFLAGS = -shared
 LDLIBS  = -lsass
 
 sass.so: lsass.o
