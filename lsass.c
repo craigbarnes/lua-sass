@@ -2,11 +2,11 @@
 #include <lauxlib.h>
 #include <lua.h>
 
+#define UERR "An unknown error occurred"
+
 int lsass_compile(lua_State *L) {
     const char *source = luaL_checkstring(L, 1);
     struct sass_context* ctx = sass_new_context();
-    int ret;
-
     ctx->options.include_paths = "";
     ctx->options.image_path = "images";
     ctx->options.output_style = SASS_STYLE_NESTED;
@@ -16,23 +16,19 @@ int lsass_compile(lua_State *L) {
 
     if (ctx->error_status || !ctx->output_string) {
         lua_pushnil(L);
-        lua_pushstring(L, ctx->error_message ? ctx->error_message
-                                             : "An unknown error occurred");
-        ret = 2;
-    } else {
-        lua_pushstring(L, ctx->output_string);
-        ret = 1;
+        lua_pushstring(L, ctx->error_message ? ctx->error_message : UERR);
+        sass_free_context(ctx);
+        return 2;
     }
 
+    lua_pushstring(L, ctx->output_string);
     sass_free_context(ctx);
-    return ret;
+    return 1;
 }
 
 int lsass_compile_file(lua_State *L) {
     const char *filename = luaL_checkstring(L, 1);
     struct sass_file_context* ctx = sass_new_file_context();
-    int ret;
-
     ctx->options.include_paths = "";
     ctx->options.image_path = "images";
     ctx->options.output_style = SASS_STYLE_NESTED;
@@ -42,16 +38,14 @@ int lsass_compile_file(lua_State *L) {
 
     if (ctx->error_status || !ctx->output_string) {
         lua_pushnil(L);
-        lua_pushstring(L, ctx->error_message ? ctx->error_message
-                                             : "An unknown error occurred");
-        ret = 2;
-    } else {
-        lua_pushstring(L, ctx->output_string);
-        ret = 1;
+        lua_pushstring(L, ctx->error_message ? ctx->error_message : UERR);
+        sass_free_file_context(ctx);
+        return 2
     }
 
+    lua_pushstring(L, ctx->output_string);
     sass_free_file_context(ctx);
-    return ret;
+    return 1;
 }
 
 static const luaL_reg R[] = {
@@ -61,6 +55,6 @@ static const luaL_reg R[] = {
 };
 
 LUALIB_API int luaopen_sass(lua_State *L) {
-    luaL_register(L, "sass", R); /* luaL_newlib(L, R) for 5.2 */
+    luaL_register(L, "sass", R);
     return 1;
 }
