@@ -14,21 +14,14 @@ int lsass_compile(lua_State *L) {
 
     sass_compile(ctx);
 
-    if (ctx->error_status) {
+    if (ctx->error_status || !ctx->output_string) {
         lua_pushnil(L);
-        if (ctx->error_message) {
-            lua_pushstring(L, ctx->error_message);
-        } else {
-            lua_pushstring(L, "An unknown error occurred");
-        }
+        lua_pushstring(L, ctx->error_message ? ctx->error_message
+                                             : "An unknown error occurred");
         ret = 2;
-    } else if (ctx->output_string) {
+    } else {
         lua_pushstring(L, ctx->output_string);
         ret = 1;
-    } else {
-        lua_pushnil(L);
-        lua_pushstring(L, "An unknown internal error occurred");
-        ret = 2;
     }
 
     sass_free_context(ctx);
@@ -47,21 +40,14 @@ int lsass_compile_file(lua_State *L) {
 
     sass_compile_file(ctx);
 
-    if (ctx->error_status) {
+    if (ctx->error_status || !ctx->output_string) {
         lua_pushnil(L);
-        if (ctx->error_message) {
-            lua_pushstring(L, ctx->error_message);
-        } else {
-            lua_pushstring(L, "An unknown error occurred");
-        }
+        lua_pushstring(L, ctx->error_message ? ctx->error_message
+                                             : "An unknown error occurred");
         ret = 2;
-    } else if (ctx->output_string) {
+    } else {
         lua_pushstring(L, ctx->output_string);
         ret = 1;
-    } else {
-        lua_pushnil(L);
-        lua_pushstring(L, "An unknown internal error occurred");
-        ret = 2;
     }
 
     sass_free_file_context(ctx);
