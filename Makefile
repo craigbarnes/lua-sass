@@ -1,6 +1,6 @@
 PREFIX  = /usr/local
 LIBDIR  = $(PREFIX)/lib/lua/5.1
-CFLAGS  = -O2 -Wall -fPIC
+CFLAGS  = -O2 -Wall
 LDFLAGS = -shared
 LDLIBS  = -lsass
 
@@ -8,7 +8,8 @@ sass.so: lsass.o
 	$(CC) $(LDFLAGS) $(LDLIBS) -o $@ $<
 
 install: sass.so
-	install -Dpm0755 $< $(DESTDIR)$(LIBDIR)/$<
+	mkdir -p $(DESTDIR)$(LIBDIR)
+	install -pm0755 $< $(DESTDIR)$(LIBDIR)/$<
 
 uninstall:
 	rm -f $(DESTDIR)$(LIBDIR)/sass.so
@@ -22,3 +23,7 @@ clean:
 
 
 .PHONY: install uninstall test clean
+
+ifeq ($(shell uname),Darwin)
+  LDFLAGS = -undefined dynamic_lookup -dynamiclib
+endif
