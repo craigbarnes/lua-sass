@@ -40,7 +40,7 @@ int lsass_compile_file(lua_State *L) {
         lua_pushnil(L);
         lua_pushstring(L, ctx->error_message ? ctx->error_message : UERR);
         sass_free_file_context(ctx);
-        return 2
+        return 2;
     }
 
     lua_pushstring(L, ctx->output_string);
