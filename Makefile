@@ -18,11 +18,14 @@ test: sass.so
 	@lua test.lua
 	@echo "All tests passed"
 
+cppcheck: lsass.c
+	@cppcheck --enable=style,performance,portability --std=c89 $^
+
 clean:
 	rm -f sass.so lsass.o
 
 
-.PHONY: install uninstall test clean
+.PHONY: install uninstall test cppcheck clean
 
 ifeq ($(shell uname),Darwin)
   LDFLAGS = -undefined dynamic_lookup -dynamiclib
