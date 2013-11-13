@@ -28,23 +28,38 @@ NOTE:
 #include <lauxlib.h>
 #include <lua.h>
 
+static const char *const output_style[] = {
+    "nested",
+    "expanded",
+    "compact",
+    "compressed",
+    NULL
+};
+
+static const char *const src_comment[] = {
+    "none",
+    "default",
+    "map",
+    NULL
+};
+
 static void push_error(lua_State *L, const char *message) {
     lua_pushnil(L);
     lua_pushstring(L, message ? message : "An unknown error occurred");
 }
 
-static struct sass_options check_options(lua_State *L) {
+static struct sass_options check_options(lua_State *L, int i) {
     struct sass_options options;
-    options.include_paths = (char*)luaL_optstring(L, 2, "");
-    options.image_path = (char*)luaL_optstring(L, 3, "images");
-    options.output_style = SASS_STYLE_NESTED;
-    options.source_comments = 0;
+    options.output_style = luaL_checkoption(L, i++, "nested", output_style);
+    options.source_comments = luaL_checkoption(L, i++, "default", src_comment);
+    options.include_paths = (char*)luaL_optstring(L, i++, "");
+    options.image_path = (char*)luaL_optstring(L, i++, "images");
     return options;
 }
 
 static int compile(lua_State *L) {
     const char *input = luaL_checkstring(L, 1);
-    struct sass_options options = check_options(L);
+    struct sass_options options = check_options(L, 2);
     struct sass_context *ctx = sass_new_context();
 
     ctx->options = options;
@@ -64,7 +79,7 @@ static int compile(lua_State *L) {
 
 static int compile_file(lua_State *L) {
     const char *filename = luaL_checkstring(L, 1);
-    struct sass_options options = check_options(L);
+    struct sass_options options = check_options(L, 2);
     struct sass_file_context *ctx = sass_new_file_context();
 
     ctx->options = options;
