@@ -5,7 +5,15 @@ Lua bindings for [libsass]
 Installation
 ------------
 
-    make && sudo make install
+    make
+    [sudo] make install
+
+Note: you may need to add the appropriate include paths for Lua/libsass
+to `CPPFLAGS`, if the headers are not found by default.
+
+e.g.
+
+    make CPPFLAGS='-I /usr/include/lua5.1 -I /usr/include/libsass'
 
 Usage
 -----
