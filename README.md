@@ -21,11 +21,40 @@ Usage
 The `sass` module provides 2 functions, which are named in accordance with
 their [libsass] counterparts:
 
-* `css = sass.compile(scss_string)`
-* `css = sass.compile_file(filename)`
+### compile
 
-If any errors are encountered when calling either function, `nil, errmsg`
-will be returned.
+    compile(scss, style, comments, includes, images)
+
+#### Parameters:
+
+1. `scss`: String of SCSS input text.
+2. `style`: Output style. One of `nested`, `expanded`, `compact`
+   or `compressed` (**optional**, defaults to `nested`).
+3. `src_comments`: Source comment style. One of `none`, `default` or `map`.
+   (**optional**, defaults to `default`).
+4. `includes`: Semicolon-delimited string of include paths (**optional**,
+   defaults to empty string).
+5. `images`: Image path (**optional**, defaults to `images`).
+
+#### Returns:
+
+Either a string of CSS on success, or `nil` and an error message on failure.
+
+### compile_file
+
+    compile_file(filename, style, comments, includes, images)
+
+#### Parameters:
+
+1. `filename`: An SCSS file to read input from.
+2. As above.
+3. As above.
+4. As above.
+5. As above.
+
+#### Returns:
+
+As above.
 
 Examples
 --------
