@@ -2,33 +2,40 @@
 #include <lauxlib.h>
 #include <lua.h>
 
-#define UERR "An unknown error occurred"
+static void push_error(lua_State *L, const char *message) {
+    lua_pushnil(L);
+    lua_pushstring(L, message ? message : "An unknown error occurred");
+}
 
 static int compile(lua_State *L) {
-    const char *source = luaL_checkstring(L, 1);
-    struct sass_context* ctx = sass_new_context();
+    const char *input;
+    struct sass_context *ctx;
+
+    input = luaL_checkstring(L, 1);
+    ctx = sass_new_context();
     ctx->options.include_paths = "";
     ctx->options.image_path = "images";
     ctx->options.output_style = SASS_STYLE_NESTED;
-    ctx->source_string = source;
-
+    ctx->source_string = input;
     sass_compile(ctx);
 
     if (ctx->error_status || !ctx->output_string) {
-        lua_pushnil(L);
-        lua_pushstring(L, ctx->error_message ? ctx->error_message : UERR);
+        push_error(L, ctx->error_message);
         sass_free_context(ctx);
         return 2;
+    } else {
+        lua_pushstring(L, ctx->output_string);
+        sass_free_context(ctx);
+        return 1;
     }
-
-    lua_pushstring(L, ctx->output_string);
-    sass_free_context(ctx);
-    return 1;
 }
 
 static int compile_file(lua_State *L) {
-    const char *filename = luaL_checkstring(L, 1);
-    struct sass_file_context* ctx = sass_new_file_context();
+    const char *filename;
+    struct sass_file_context *ctx;
+
+    filename = luaL_checkstring(L, 1);
+    ctx = sass_new_file_context();
     ctx->options.include_paths = "";
     ctx->options.image_path = "images";
     ctx->options.output_style = SASS_STYLE_NESTED;
@@ -41,15 +48,14 @@ static int compile_file(lua_State *L) {
     sass_compile_file(ctx);
 
     if (ctx->error_status || !ctx->output_string) {
-        lua_pushnil(L);
-        lua_pushstring(L, ctx->error_message ? ctx->error_message : UERR);
+        push_error(L, ctx->error_message);
         sass_free_file_context(ctx);
         return 2;
+    } else {
+        lua_pushstring(L, ctx->output_string);
+        sass_free_file_context(ctx);
+        return 1;
     }
-
-    lua_pushstring(L, ctx->output_string);
-    sass_free_file_context(ctx);
-    return 1;
 }
 
 LUALIB_API int luaopen_sass(lua_State *L) {
