@@ -54,7 +54,7 @@ end
 [License](http://en.wikipedia.org/wiki/ISC_license "ISC license")
 ---------
 
-Copyright (c) 2012, Craig Barnes
+Copyright (c) 2012-2013 Craig Barnes
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
