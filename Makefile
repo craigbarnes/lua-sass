@@ -12,20 +12,19 @@ install: sass.so
 	install -pm0755 $< $(DESTDIR)$(LIBDIR)/$<
 
 uninstall:
-	rm -f $(DESTDIR)$(LIBDIR)/sass.so
+	$(RM) $(DESTDIR)$(LIBDIR)/sass.so
 
-test: sass.so
+check test: sass.so test.lua
 	@lua test.lua
-	@echo "All tests passed"
 
 cppcheck: lsass.c
 	@cppcheck --enable=style,performance,portability --std=c89 $^
 
 clean:
-	rm -f sass.so lsass.o
+	$(RM) sass.so lsass.o
 
 
-.PHONY: install uninstall test cppcheck clean
+.PHONY: install uninstall check test cppcheck clean
 
 ifeq ($(shell uname),Darwin)
   LDFLAGS = -undefined dynamic_lookup -dynamiclib
