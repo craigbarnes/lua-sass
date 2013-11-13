@@ -15,6 +15,15 @@
  CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
+/*
+NOTE:
+ The various casts from "const char*" to "char*" are a temporary workaround.
+ The data is never actually mutated by libsass, but the declarations in
+ sass_interface.h are lacking const-correctness.
+
+ TODO: Remove casts when libsass API is fixed.
+*/
+
 #include <sass_interface.h>
 #include <lauxlib.h>
 #include <lua.h>
@@ -24,15 +33,21 @@ static void push_error(lua_State *L, const char *message) {
     lua_pushstring(L, message ? message : "An unknown error occurred");
 }
 
-static int compile(lua_State *L) {
-    const char *input;
-    struct sass_context *ctx;
+static struct sass_options check_options(lua_State *L) {
+    struct sass_options options;
+    options.include_paths = (char*)luaL_optstring(L, 2, "");
+    options.image_path = (char*)luaL_optstring(L, 3, "images");
+    options.output_style = SASS_STYLE_NESTED;
+    options.source_comments = 0;
+    return options;
+}
 
-    input = luaL_checkstring(L, 1);
-    ctx = sass_new_context();
-    ctx->options.include_paths = "";
-    ctx->options.image_path = "images";
-    ctx->options.output_style = SASS_STYLE_NESTED;
+static int compile(lua_State *L) {
+    const char *input = luaL_checkstring(L, 1);
+    struct sass_options options = check_options(L);
+    struct sass_context *ctx = sass_new_context();
+
+    ctx->options = options;
     ctx->source_string = input;
     sass_compile(ctx);
 
@@ -48,20 +63,12 @@ static int compile(lua_State *L) {
 }
 
 static int compile_file(lua_State *L) {
-    const char *filename;
-    struct sass_file_context *ctx;
+    const char *filename = luaL_checkstring(L, 1);
+    struct sass_options options = check_options(L);
+    struct sass_file_context *ctx = sass_new_file_context();
 
-    filename = luaL_checkstring(L, 1);
-    ctx = sass_new_file_context();
-    ctx->options.include_paths = "";
-    ctx->options.image_path = "images";
-    ctx->options.output_style = SASS_STYLE_NESTED;
-
-    /* This cast is potentially dangerous but in practice
-       sass_file_context::input_path is not mutated by libsass.
-       TODO: Remove cast if/when libsass API is made const correct. */
+    ctx->options = options;
     ctx->input_path = (char*)filename;
-
     sass_compile_file(ctx);
 
     if (ctx->error_status || !ctx->output_string) {

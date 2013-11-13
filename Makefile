@@ -1,6 +1,6 @@
 PREFIX  = /usr/local
 LIBDIR  = $(PREFIX)/lib/lua/5.1
-CFLAGS  = -O2 -Wall
+CFLAGS  = -O2 -std=c89 -Wall -Wextra -Wpedantic
 LDFLAGS = -shared
 LDLIBS  = -lsass
 
