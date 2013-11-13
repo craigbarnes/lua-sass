@@ -50,10 +50,10 @@ static void push_error(lua_State *L, const char *message) {
 
 static struct sass_options check_options(lua_State *L, int i) {
     struct sass_options options;
-    options.output_style = luaL_checkoption(L, i++, "nested", output_style);
-    options.source_comments = luaL_checkoption(L, i++, "default", src_comment);
-    options.include_paths = (char*)luaL_optstring(L, i++, "");
-    options.image_path = (char*)luaL_optstring(L, i++, "images");
+    options.output_style = luaL_checkoption(L, i, "nested", output_style);
+    options.source_comments = luaL_checkoption(L, i+1, "default", src_comment);
+    options.include_paths = (char*)luaL_optstring(L, i+2, "");
+    options.image_path = (char*)luaL_optstring(L, i+3, "images");
     return options;
 }
 
