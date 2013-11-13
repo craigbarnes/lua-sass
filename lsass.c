@@ -4,7 +4,7 @@
 
 #define UERR "An unknown error occurred"
 
-int lsass_compile(lua_State *L) {
+static int compile(lua_State *L) {
     const char *source = luaL_checkstring(L, 1);
     struct sass_context* ctx = sass_new_context();
     ctx->options.include_paths = "";
@@ -26,13 +26,17 @@ int lsass_compile(lua_State *L) {
     return 1;
 }
 
-int lsass_compile_file(lua_State *L) {
+static int compile_file(lua_State *L) {
     const char *filename = luaL_checkstring(L, 1);
     struct sass_file_context* ctx = sass_new_file_context();
     ctx->options.include_paths = "";
     ctx->options.image_path = "images";
     ctx->options.output_style = SASS_STYLE_NESTED;
-    ctx->input_path = filename;
+
+    /* This cast is potentially dangerous but in practice
+       sass_file_context::input_path is not mutated by libsass.
+       TODO: Remove cast if/when libsass API is made const correct. */
+    ctx->input_path = (char*)filename;
 
     sass_compile_file(ctx);
 
@@ -48,13 +52,11 @@ int lsass_compile_file(lua_State *L) {
     return 1;
 }
 
-static const luaL_reg R[] = {
-    {"compile", lsass_compile},
-    {"compile_file", lsass_compile_file},
-    {NULL, NULL}
-};
-
 LUALIB_API int luaopen_sass(lua_State *L) {
-    luaL_register(L, "sass", R);
+    lua_createtable(L, 0, 2);
+    lua_pushcfunction(L, compile);
+    lua_setfield(L, -2, "compile");
+    lua_pushcfunction(L, compile_file);
+    lua_setfield(L, -2, "compile_file");
     return 1;
 }
