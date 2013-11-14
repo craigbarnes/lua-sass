@@ -15,15 +15,6 @@
  CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
-/*
-NOTE:
- The various casts from "const char*" to "char*" are a temporary workaround.
- The data is never actually mutated by libsass, but the declarations in
- sass_interface.h are lacking const-correctness.
-
- TODO: Remove casts when libsass API is fixed.
-*/
-
 #include <sass_interface.h>
 #include <lauxlib.h>
 #include <lua.h>
@@ -52,8 +43,8 @@ static struct sass_options check_options(lua_State *L, int i) {
     struct sass_options options;
     options.output_style = luaL_checkoption(L, i, "nested", output_style);
     options.source_comments = luaL_checkoption(L, i+1, "default", src_comment);
-    options.include_paths = (char*)luaL_optstring(L, i+2, "");
-    options.image_path = (char*)luaL_optstring(L, i+3, "images");
+    options.include_paths = luaL_optstring(L, i+2, "");
+    options.image_path = luaL_optstring(L, i+3, "images");
     return options;
 }
 
@@ -83,7 +74,7 @@ static int compile_file(lua_State *L) {
     struct sass_file_context *ctx = sass_new_file_context();
 
     ctx->options = options;
-    ctx->input_path = (char*)filename;
+    ctx->input_path = filename;
     sass_compile_file(ctx);
 
     if (ctx->error_status || !ctx->output_string) {
