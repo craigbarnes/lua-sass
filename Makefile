@@ -4,6 +4,8 @@ CFLAGS  = -O2 -std=c89 -Wall -Wextra -Wpedantic
 LDFLAGS = -shared
 LDLIBS  = -lsass
 
+all: sass.so
+
 sass.so: lsass.o
 	$(CC) $(LDFLAGS) $(LDLIBS) -o $@ $<
 
@@ -24,7 +26,7 @@ clean:
 	$(RM) sass.so lsass.o
 
 
-.PHONY: install uninstall check test cppcheck clean
+.PHONY: all install uninstall check test cppcheck clean
 
 ifeq ($(shell uname),Darwin)
   LDFLAGS = -undefined dynamic_lookup -dynamiclib
