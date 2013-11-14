@@ -11,7 +11,7 @@ all: lsass.so
 lsass.so: lsass.o
 	$(CC) $(LDFLAGS) $(LDLIBS) -o $@ $<
 
-install: lsass.so
+install: all
 	mkdir -p '$(DESTDIR)$(LUACDIR)' '$(DESTDIR)$(LUADIR)'
 	install -pm0755 lsass.so '$(DESTDIR)$(LUACDIR)'
 	install -pm0644 sass.lua '$(DESTDIR)$(LUADIR)'
@@ -20,7 +20,7 @@ uninstall:
 	$(RM) '$(DESTDIR)$(LUACDIR)/lsass.so'
 	$(RM) '$(DESTDIR)$(LUADIR)/sass.lua'
 
-check test: lsass.so sass.lua test.lua
+check test: all sass.lua test.lua
 	@LUA_PATH='./?.lua' LUA_CPATH='./?.so' lua test.lua
 
 cppcheck: lsass.c
