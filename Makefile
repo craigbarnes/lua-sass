@@ -13,8 +13,8 @@ lsass.so: lsass.o
 
 install: all
 	mkdir -p '$(DESTDIR)$(LUACDIR)' '$(DESTDIR)$(LUADIR)'
-	install -pm0755 lsass.so '$(DESTDIR)$(LUACDIR)'
-	install -pm0644 sass.lua '$(DESTDIR)$(LUADIR)'
+	install -pm0755 lsass.so '$(DESTDIR)$(LUACDIR)/lsass.so'
+	install -pm0644 sass.lua '$(DESTDIR)$(LUADIR)/sass.lua'
 
 uninstall:
 	$(RM) '$(DESTDIR)$(LUACDIR)/lsass.so'
