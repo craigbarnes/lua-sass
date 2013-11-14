@@ -1,4 +1,4 @@
-local sass = assert(package.loadlib("./sass.so", "luaopen_sass"))()
+local sass = require "sass"
 
 -- Basic compilation of valid strings and files should work
 assert(sass.compile("a {color: red}", "compressed", "map", "inc", "images"))

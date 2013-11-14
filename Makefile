@@ -1,29 +1,33 @@
 PREFIX  = /usr/local
-LIBDIR  = $(PREFIX)/lib/lua/5.1
+LUAVER  = 5.1
+LUACDIR = $(PREFIX)/lib/lua/$(LUAVER)
+LUADIR  = $(PREFIX)/share/lua/$(LUAVER)
 CFLAGS  = -O2 -std=c89 -Wall -Wextra -Wpedantic
 LDFLAGS = -shared
 LDLIBS  = -lsass
 
-all: sass.so
+all: lsass.so
 
-sass.so: lsass.o
+lsass.so: lsass.o
 	$(CC) $(LDFLAGS) $(LDLIBS) -o $@ $<
 
-install: sass.so
-	mkdir -p $(DESTDIR)$(LIBDIR)
-	install -pm0755 $< $(DESTDIR)$(LIBDIR)/$<
+install: lsass.so
+	mkdir -p '$(DESTDIR)$(LUACDIR)' '$(DESTDIR)$(LUADIR)'
+	install -pm0755 lsass.so '$(DESTDIR)$(LUACDIR)'
+	install -pm0644 sass.lua '$(DESTDIR)$(LUADIR)'
 
 uninstall:
-	$(RM) $(DESTDIR)$(LIBDIR)/sass.so
+	$(RM) '$(DESTDIR)$(LUACDIR)/lsass.so'
+	$(RM) '$(DESTDIR)$(LUADIR)/sass.lua'
 
-check test: sass.so test.lua
-	@lua test.lua
+check test: lsass.so sass.lua test.lua
+	@LUA_PATH='./?.lua' LUA_CPATH='./?.so' lua test.lua
 
 cppcheck: lsass.c
 	@cppcheck --enable=style,performance,portability --std=c89 $^
 
 clean:
-	$(RM) sass.so lsass.o
+	$(RM) lsass.so lsass.o
 
 
 .PHONY: all install uninstall check test cppcheck clean
