@@ -2,7 +2,7 @@ PREFIX  = /usr/local
 LUAVER  = 5.1
 LUACDIR = $(PREFIX)/lib/lua/$(LUAVER)
 LUADIR  = $(PREFIX)/share/lua/$(LUAVER)
-CFLAGS  = -O2 -std=c89 -pedantic -Wall -Wextra
+CFLAGS  = -O2 -fPIC -std=c89 -pedantic -Wall -Wextra
 LDFLAGS = -shared
 LDLIBS  = -lsass
 
