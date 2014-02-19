@@ -32,7 +32,7 @@ cppcheck: sass.c
 	@cppcheck --enable=style,performance,portability --std=c89 $^
 
 clean:
-	$(RM) sass.so sass.o
+	$(RM) sass.so sass.o lua-sass-*.tar.gz
 
 
 .PHONY: all install uninstall check test cppcheck clean force
