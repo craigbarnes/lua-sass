@@ -46,14 +46,14 @@ their [libsass] counterparts:
 
 #### Parameters:
 
-1. `scss`: String of SCSS input text.
-2. `style`: Output style. One of `nested`, `expanded`, `compact`
-   or `compressed` (**optional**, defaults to `nested`).
-3. `src_comments`: Source comment style. One of `none`, `default` or `map`.
-   (**optional**, defaults to `default`).
-4. `includes`: Semicolon-delimited string of include paths (**optional**,
-   defaults to empty string).
-5. `images`: Image path (**optional**, defaults to `images`).
+1. `scss`: String of [SCSS] input text.
+2. `style`: Output style. One of `"nested"`, `"expanded"`, `"compact"`
+   or `"compressed"` (*optional*; defaults to `"nested"`).
+3. `src_comments`: Source comment style. One of `"none"`, `"default"` or
+   `"map"` (*optional*; defaults to `"default"`).
+4. `includes`: Semicolon-delimited string of include paths (*optional*;
+   defaults to `""`).
+5. `images`: Image path (*optional*; defaults to `"images"`).
 
 #### Returns:
 
@@ -65,7 +65,7 @@ Either a string of CSS on success, or `nil` and an error message on failure.
 
 #### Parameters:
 
-1. `filename`: An SCSS file to read input from.
+1. `filename`: An [SCSS] file to read input from.
 2. As above.
 3. As above.
 4. As above.
@@ -123,3 +123,4 @@ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 [Lua]: http://www.lua.org/
 [LuaJIT]: http://luajit.org/
 [pkg-config]: https://en.wikipedia.org/wiki/Pkg-config
+[SCSS]: http://sass-lang.com/documentation/file.SASS_REFERENCE.html#syntax
