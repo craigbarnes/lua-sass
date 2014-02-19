@@ -5,15 +5,26 @@ Lua bindings for [libsass]
 Installation
 ------------
 
+For systems where Lua and libsass are installed globally (i.e. via a
+package manager), the following commands should usually suffice:
+
     make
+    make check
     [sudo] make install
 
-Note: you may need to add the appropriate include paths for Lua/libsass
-to `CPPFLAGS`, if the headers are not found by default.
+The Makefile consults [pkg-config] for the following variables:
 
-e.g.
+* `SASS_CFLAGS`: flags required to find the libsass headers.
+* `SASS_LDFLAGS`: flags for linking to libsass (defaults to `-lsass`).
+* `LUA_CFLAGS`: flags required to find the Lua headers.
+* `LUA_CMOD_DIR`: the directory in which to install the compiled module.
 
-    make CPPFLAGS='-I /usr/include/lua5.1 -I /usr/include/libsass'
+If you don't have [pkg-config] or the relevant .pc files installed, you
+may need to specify these variables manually, for example:
+
+    make LUA_CFLAGS=-I/usr/include/lua5.2 SASS_CFLAGS=-I/usr/include/libsass
+    make check
+    [sudo] make install LUA_CMOD_DIR=/usr/lib/lua/5.2
 
 Usage
 -----
@@ -99,3 +110,4 @@ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 
 [libsass]: https://github.com/hcatlin/libsass
+[pkg-config]: https://en.wikipedia.org/wiki/Pkg-config

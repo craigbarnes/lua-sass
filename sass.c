@@ -88,7 +88,7 @@ static int compile_file(lua_State *L) {
     }
 }
 
-int luaopen_lsass(lua_State *L) {
+int luaopen_sass(lua_State *L) {
     lua_createtable(L, 0, 2);
     lua_pushcfunction(L, compile);
     lua_setfield(L, -2, "compile");
