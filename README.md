@@ -2,6 +2,14 @@ lua-sass
 ========
 Lua bindings for [libsass]
 
+Requirements
+------------
+
+* C89 compiler
+* [GNU Make]
+* [Lua] 5.1/5.2 or [LuaJIT] 2
+* [libsass]
+
 Installation
 ------------
 
@@ -91,7 +99,7 @@ else
 end
 ```
 
-[License](http://en.wikipedia.org/wiki/ISC_license "ISC license")
+[License]
 ---------
 
 Copyright (c) 2012-2014 Craig Barnes
@@ -109,5 +117,9 @@ OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 
+[License]: http://en.wikipedia.org/wiki/ISC_license "ISC License"
 [libsass]: https://github.com/hcatlin/libsass
+[GNU Make]: https://www.gnu.org/software/make/
+[Lua]: http://www.lua.org/
+[LuaJIT]: http://luajit.org/
 [pkg-config]: https://en.wikipedia.org/wiki/Pkg-config
