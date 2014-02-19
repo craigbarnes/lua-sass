@@ -22,6 +22,9 @@ install: all
 uninstall:
 	$(RM) '$(DESTDIR)$(LUA_CMOD_DIR)/sass.so'
 
+lua-sass-%.tar.gz: force
+	git archive --prefix=lua-sass-$*/ -o $@ $*
+
 check test: all test.lua
 	@LUA_PATH='./?.lua' LUA_CPATH='./?.so' lua test.lua
 
@@ -32,7 +35,7 @@ clean:
 	$(RM) sass.so sass.o
 
 
-.PHONY: all install uninstall check test cppcheck clean
+.PHONY: all install uninstall check test cppcheck clean force
 
 ifeq "$(shell uname)" "Darwin"
   LDFLAGS = -bundle -undefined dynamic_lookup
