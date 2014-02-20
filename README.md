@@ -55,6 +55,10 @@ their [libsass] counterparts:
    defaults to `""`).
 5. `images`: Image path (*optional*; defaults to `"images"`).
 
+**Note**: only the `"compressed"` and `"nested"` styles are currently
+implemented in libsass -- the others are just equivalent to `"nested"`
+for now.
+
 #### Returns:
 
 Either a string of CSS on success, or `nil` and an error message on failure.
