@@ -47,17 +47,13 @@ their [libsass] counterparts:
 #### Parameters:
 
 1. `scss`: String of [SCSS] input text.
-2. `style`: Output style. One of `"nested"`, `"expanded"`, `"compact"`
-   or `"compressed"` (*optional*; defaults to `"nested"`).
-3. `src_comments`: Source comment style. One of `"none"`, `"default"` or
+2. `style`: Output style. Either `"nested"`or `"compressed"`
+   (*optional*; defaults to `"nested"`).
+3. `comments`: Source comment style. One of `"none"`, `"default"` or
    `"map"` (*optional*; defaults to `"default"`).
 4. `includes`: Semicolon-delimited string of include paths (*optional*;
    defaults to `""`).
 5. `images`: Image path (*optional*; defaults to `"images"`).
-
-**Note**: only the `"compressed"` and `"nested"` styles are currently
-implemented in libsass -- the others are just equivalent to `"nested"`
-for now.
 
 #### Returns:
 
