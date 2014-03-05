@@ -44,7 +44,7 @@ their [libsass] counterparts:
 
     compile(scss, style, comments, includes, images)
 
-#### Parameters:
+**Parameters:**
 
 1. `scss`: String of [SCSS] input text.
 2. `style`: Output style. Either `"nested"`or `"compressed"`
@@ -55,7 +55,7 @@ their [libsass] counterparts:
    defaults to `""`).
 5. `images`: Image path (*optional*; defaults to `"images"`).
 
-#### Returns:
+**Returns:**
 
 Either a string of CSS on success, or `nil` and an error message on failure.
 
@@ -63,7 +63,7 @@ Either a string of CSS on success, or `nil` and an error message on failure.
 
     compile_file(filename, style, comments, includes, images)
 
-#### Parameters:
+**Parameters:**
 
 1. `filename`: An [SCSS] file to read input from.
 2. As above.
@@ -71,7 +71,7 @@ Either a string of CSS on success, or `nil` and an error message on failure.
 4. As above.
 5. As above.
 
-#### Returns:
+**Returns:**
 
 As above.
 
