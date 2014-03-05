@@ -82,7 +82,7 @@ As above.
 Examples
 --------
 
-#### Compiling a string and using the `assert` idiom for error handling:
+Compiling a string and using the `assert` idiom for error handling:
 
 ```lua
 local sass = require "sass"
@@ -90,16 +90,15 @@ local css = assert(sass.compile "$x: red; div {color: $x}")
 print(css)
 ```
 
-#### Compiling a file and using explicit error handling:
+Compiling a file and using explicit error handling:
 
 ```lua
 local sass = require "sass"
-local css, errmsg = sass.compile_file "file.scss"
+local css, err = sass.compile_file "file.scss"
 if css then
     print(css)
 else
-    io.stderr:write("Error: " .. errmsg)
-    -- Error handling goes here
+    io.stderr:write("Error: ", err, "\n")
 end
 ```
 
