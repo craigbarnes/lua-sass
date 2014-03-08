@@ -4,16 +4,32 @@ LDFLAGS      = -shared
 PKGCONFIG    = pkg-config --silence-errors
 SASS_CFLAGS  = $(shell $(PKGCONFIG) --cflags libsass)
 SASS_LDFLAGS = $(or $(shell $(PKGCONFIG) --libs libsass), -lsass)
+LIBTOOL      = libtool --tag=CC --silent
+LTLINK       = $(LIBTOOL) --mode=link
+LTCOMPILE    = $(LIBTOOL) --mode=compile
 
 include findlua.mk
 
 all: sass.so
 
+ifndef USE_LIBTOOL
 sass.so: sass.o
 	$(CC) $(LDFLAGS) $(SASS_LDFLAGS) -o $@ $<
+else
+sass.so: .libs/libluasass.so.0.0.0
+	cp $< $@
+endif
 
 sass.o: sass.c
 	$(CC) $(CFLAGS) $(LUA_CFLAGS) $(SASS_CFLAGS) -c -o $@ $<
+
+.libs/libluasass.so.0.0.0: libluasass.la
+
+libluasass.la: sass.lo
+	$(LTLINK) $(CC) $(SASS_LDFLAGS) -rpath $(LUA_CMOD_DIR) -o $@ $<
+
+sass.lo: sass.c
+	$(LTCOMPILE) $(CC) $(CFLAGS) $(LUA_CFLAGS) $(SASS_CFLAGS) -c $<
 
 install: all
 	mkdir -p '$(DESTDIR)$(LUA_CMOD_DIR)'
@@ -32,7 +48,8 @@ cppcheck: sass.c
 	@cppcheck --enable=style,performance,portability --std=c89 $^
 
 clean:
-	$(RM) sass.so sass.o lua-sass-*.tar.gz
+	$(RM) sass.so sass.o sass.lo libluasass.la lua-sass-*.tar.gz
+	$(RM) -r .libs
 
 
 .PHONY: all install uninstall check test cppcheck clean force

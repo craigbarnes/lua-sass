@@ -1,3 +1,6 @@
-*.so
-*.o
+sass.so
+sass.o
+sass.lo
+libluasass.la
+.libs/
 lua-sass-*.tar.gz
