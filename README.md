@@ -34,6 +34,8 @@ may need to specify these variables manually, for example:
     make check
     [sudo] make install LUA_CMOD_DIR=/usr/lib/lua/5.2
 
+In addition to the above, some systems may also require `USE_LIBTOOL=1`.
+
 Usage
 -----
 
