@@ -4,3 +4,4 @@ sass.lo
 libluasass.la
 .libs/
 lua-sass-*.tar.gz
+lua-sass-*.zip

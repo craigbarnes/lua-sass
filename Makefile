@@ -38,7 +38,7 @@ install: all
 uninstall:
 	$(RM) '$(DESTDIR)$(LUA_CMOD_DIR)/sass.so'
 
-lua-sass-%.tar.gz: force
+lua-sass-%.tar.gz lua-sass-%.zip: force
 	git archive --prefix=lua-sass-$*/ -o $@ $*
 
 check test: all test.lua
@@ -48,7 +48,8 @@ cppcheck: sass.c
 	@cppcheck --enable=style,performance,portability --std=c89 $^
 
 clean:
-	$(RM) sass.so sass.o sass.lo libluasass.la lua-sass-*.tar.gz
+	$(RM) sass.so sass.o sass.lo libluasass.la
+	$(RM) lua-sass-*.tar.gz lua-sass-*.zip
 	$(RM) -r .libs
 
 
