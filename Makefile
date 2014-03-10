@@ -4,6 +4,8 @@ LDFLAGS      = -shared
 PKGCONFIG    = pkg-config --silence-errors
 SASS_CFLAGS  = $(shell $(PKGCONFIG) --cflags libsass)
 SASS_LDFLAGS = $(or $(shell $(PKGCONFIG) --libs libsass), -lsass)
+SASS_INCDIR  = $(shell $(PKGCONFIG) --variable=includedir libsass)
+
 LIBTOOL      = libtool --tag=CC --silent
 LTLINK       = $(LIBTOOL) --mode=link
 LTCOMPILE    = $(LIBTOOL) --mode=compile
@@ -40,6 +42,9 @@ uninstall:
 
 lua-sass-%.tar.gz lua-sass-%.zip: force
 	git archive --prefix=lua-sass-$*/ -o $@ $*
+
+tags: sass.c $(if $(SASS_INCDIR),$(SASS_INCDIR)/sass_interface.h,)
+	ctags --c-kinds=+p $^
 
 check test: all test.lua
 	@LUA_PATH='./?.lua' LUA_CPATH='./?.so' lua test.lua
