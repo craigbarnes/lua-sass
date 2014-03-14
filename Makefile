@@ -52,13 +52,19 @@ check test: all test.lua
 cppcheck: sass.c
 	@cppcheck --enable=style,performance,portability --std=c89 $^
 
+githooks: .git/hooks/pre-commit
+
+.git/hooks/pre-commit: Makefile
+	printf '#!/bin/sh\n\nmake -s check || exit 1' > $@
+	chmod +x $@
+
 clean:
 	$(RM) sass.so sass.o sass.lo libluasass.la
 	$(RM) lua-sass-*.tar.gz lua-sass-*.zip
 	$(RM) -r .libs
 
 
-.PHONY: all install uninstall check test cppcheck clean force
+.PHONY: all install uninstall check test cppcheck githooks clean force
 
 ifeq "$(shell uname)" "Darwin"
   LDFLAGS = -bundle -undefined dynamic_lookup
