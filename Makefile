@@ -1,37 +1,15 @@
-CFLAGS      ?= -O2 -fPIC -std=c89 -pedantic -Wall -Wextra
-LDFLAGS      = -shared
+include findlua.mk
 
 PKGCONFIG    = pkg-config --silence-errors
 SASS_CFLAGS  = $(shell $(PKGCONFIG) --cflags libsass)
-SASS_LDFLAGS = $(or $(shell $(PKGCONFIG) --libs libsass), -lsass)
+SASS_LDLIBS  = $(or $(shell $(PKGCONFIG) --libs libsass), -lsass)
 SASS_INCDIR  = $(shell $(PKGCONFIG) --variable=includedir libsass)
 
-LIBTOOL      = libtool --tag=CC --silent
-LTLINK       = $(LIBTOOL) --mode=link
-LTCOMPILE    = $(LIBTOOL) --mode=compile
-
-include findlua.mk
+CFLAGS      ?= -O2 -fPIC -std=c89 -pedantic -Wall -Wextra
+CFLAGS      += $(LUA_CFLAGS) $(SASS_CFLAGS)
+LDLIBS       = $(SASS_LDLIBS)
 
 all: sass.so
-
-ifndef USE_LIBTOOL
-sass.so: sass.o
-	$(CC) $(LDFLAGS) $(SASS_LDFLAGS) -o $@ $<
-else
-sass.so: .libs/libluasass.so.0.0.0
-	cp $< $@
-endif
-
-sass.o: sass.c
-	$(CC) $(CFLAGS) $(LUA_CFLAGS) $(SASS_CFLAGS) -c -o $@ $<
-
-.libs/libluasass.so.0.0.0: libluasass.la
-
-libluasass.la: sass.lo
-	$(LTLINK) $(CC) $(SASS_LDFLAGS) -rpath $(LUA_CMOD_DIR) -o $@ $<
-
-sass.lo: sass.c
-	$(LTCOMPILE) $(CC) $(CFLAGS) $(LUA_CFLAGS) $(SASS_CFLAGS) -c $<
 
 install: all
 	mkdir -p '$(DESTDIR)$(LUA_CMOD_DIR)'
@@ -59,13 +37,9 @@ githooks: .git/hooks/pre-commit
 	chmod +x $@
 
 clean:
-	$(RM) sass.so sass.o sass.lo libluasass.la
+	$(RM) sass.so sass.o sass.lo sass.la
 	$(RM) lua-sass-*.tar.gz lua-sass-*.zip
 	$(RM) -r .libs
 
 
 .PHONY: all install uninstall check test cppcheck githooks clean force
-
-ifeq "$(shell uname)" "Darwin"
-  LDFLAGS = -bundle -undefined dynamic_lookup
-endif
