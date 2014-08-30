@@ -5,7 +5,7 @@ SASS_CFLAGS  = $(shell $(PKGCONFIG) --cflags libsass)
 SASS_LDLIBS  = $(or $(shell $(PKGCONFIG) --libs libsass), -lsass)
 SASS_INCDIR  = $(shell $(PKGCONFIG) --variable=includedir libsass)
 
-CFLAGS      ?= -O2 -fPIC -std=c89 -pedantic -Wall -Wextra
+CFLAGS      ?= -O2 -fPIC -std=c99 -pedantic -Wall -Wextra
 CFLAGS      += $(LUA_CFLAGS) $(SASS_CFLAGS)
 LDLIBS       = $(SASS_LDLIBS)
 

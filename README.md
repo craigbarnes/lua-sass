@@ -5,7 +5,7 @@ Lua bindings for [libsass]
 Requirements
 ------------
 
-* C89 compiler
+* C99 compiler
 * [GNU Make]
 * [Lua] 5.1/5.2 or [LuaJIT] 2
 * [libsass]
