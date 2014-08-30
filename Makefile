@@ -1,10 +1,5 @@
 include lualib.mk
 
-# Use local.mk to store local variable overrides (e.g. SASS_CFLAGS=...).
-# It persists between builds and avoids the need to touch the git working tree.
--include local.mk
-
-PKGCONFIG   ?= pkg-config --silence-errors
 SASS_CFLAGS ?= $(shell $(PKGCONFIG) --cflags libsass)
 SASS_LDLIBS ?= $(or $(shell $(PKGCONFIG) --libs libsass), -lsass)
 SASS_INCDIR ?= $(shell $(PKGCONFIG) --variable=includedir libsass)
@@ -16,8 +11,8 @@ LDLIBS       = $(SASS_LDLIBS)
 all: sass.so
 
 install: all
-	mkdir -p '$(DESTDIR)$(LUA_CMOD_DIR)'
-	install -pm0755 sass.so '$(DESTDIR)$(LUA_CMOD_DIR)/sass.so'
+	$(MKDIR) '$(DESTDIR)$(LUA_CMOD_DIR)'
+	$(INSTALLX) sass.so '$(DESTDIR)$(LUA_CMOD_DIR)/sass.so'
 
 uninstall:
 	$(RM) '$(DESTDIR)$(LUA_CMOD_DIR)/sass.so'

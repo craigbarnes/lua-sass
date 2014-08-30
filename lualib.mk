@@ -1,9 +1,13 @@
-CC            = gcc
-LDFLAGS       = -shared -Wl,--no-as-needed
-LIBTOOL       = libtool --tag=CC --silent
-LTLINK        = $(LIBTOOL) --mode=link
-LTCOMPILE     = $(LIBTOOL) --mode=compile
-PKGCONFIG    ?= pkg-config --silence-errors
+-include local.mk
+
+CC        = gcc
+LDFLAGS   = -shared -Wl,--no-as-needed
+PKGCONFIG = pkg-config --silence-errors
+LUA       = lua
+MKDIR     = mkdir -p
+INSTALL   = install -p -m 0644
+INSTALLX  = install -p -m 0755
+RM        = rm -f
 
 ifeq "$(shell uname)" "Darwin"
   LDFLAGS = -bundle -undefined dynamic_lookup
@@ -35,6 +39,7 @@ LUA_PC_CMOD   = $(shell $(PKGCONFIG) --variable=INSTALL_CMOD $(LUA_PC))
 # Others force us to piece them together from parts...
 LUA_PREFIX    = $(shell $(PKGCONFIG) --variable=prefix $(LUA_PC))
 LUA_LIBDIR    = $(shell $(PKGCONFIG) --variable=libdir $(LUA_PC))
+LUA_INCDIR    = $(shell $(PKGCONFIG) --variable=includedir $(LUA_PC))
 LUA_VERSION   = $(shell $(PKGCONFIG) --modversion $(LUA_PC) | grep -o '^.\..')
 
 LUA_LMOD_DIR  = $(strip $(if $(LUA_PC_LMOD), $(LUA_PC_LMOD), \
@@ -43,23 +48,11 @@ LUA_LMOD_DIR  = $(strip $(if $(LUA_PC_LMOD), $(LUA_PC_LMOD), \
 LUA_CMOD_DIR  = $(strip $(if $(LUA_PC_CMOD), $(LUA_PC_CMOD), \
                 $(LUA_LIBDIR)/lua/$(LUA_VERSION)))
 
+LUA_HEADERS   = $(addprefix $(LUA_INCDIR)/, lua.h lauxlib.h)
 
-ifndef USE_LIBTOOL
+
 %.so: %.o
 	$(CC) $(LDFLAGS) $(LDLIBS) -o $@ $<
-else
-%.so: .libs/%.so
-	ln -sf $< $@
-endif
-
-.libs/%.so: %.la
-	@touch $@
-
-%.la: %.lo
-	$(LTLINK) $(CC) $(LDLIBS) -module -rpath $(LUA_CMOD_DIR) -o $@ $<
-
-%.lo: %.c
-	$(LTCOMPILE) $(CC) $(CFLAGS) -c $<
 
 
 .DELETE_ON_ERROR:
