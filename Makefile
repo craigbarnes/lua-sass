@@ -1,4 +1,4 @@
-include findlua.mk
+include lualib.mk
 
 # Use local.mk to store local variable overrides (e.g. SASS_CFLAGS=...).
 # It persists between builds and avoids the need to touch the git working tree.
