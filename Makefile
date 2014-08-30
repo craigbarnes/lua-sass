@@ -1,9 +1,13 @@
 include findlua.mk
 
-PKGCONFIG    = pkg-config --silence-errors
-SASS_CFLAGS  = $(shell $(PKGCONFIG) --cflags libsass)
-SASS_LDLIBS  = $(or $(shell $(PKGCONFIG) --libs libsass), -lsass)
-SASS_INCDIR  = $(shell $(PKGCONFIG) --variable=includedir libsass)
+# Use local.mk to store local variable overrides (e.g. SASS_CFLAGS=...).
+# It persists between builds and avoids the need to touch the git working tree.
+-include local.mk
+
+PKGCONFIG   ?= pkg-config --silence-errors
+SASS_CFLAGS ?= $(shell $(PKGCONFIG) --cflags libsass)
+SASS_LDLIBS ?= $(or $(shell $(PKGCONFIG) --libs libsass), -lsass)
+SASS_INCDIR ?= $(shell $(PKGCONFIG) --variable=includedir libsass)
 
 CFLAGS      ?= -O2 -fPIC -std=c99 -pedantic -Wall -Wextra
 CFLAGS      += $(LUA_CFLAGS) $(SASS_CFLAGS)
