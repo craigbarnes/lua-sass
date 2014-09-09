@@ -4,8 +4,10 @@ SASS_CFLAGS ?= $(shell $(PKGCONFIG) --cflags libsass)
 SASS_LDLIBS ?= $(or $(shell $(PKGCONFIG) --libs libsass), -lsass)
 SASS_INCDIR ?= $(shell $(PKGCONFIG) --variable=includedir libsass)
 
-CFLAGS      ?= -O2 -fPIC -std=c99 -pedantic -Wall -Wextra
-CFLAGS      += $(LUA_CFLAGS) $(SASS_CFLAGS)
+REQCFLAGS    = -std=c99 -pedantic -fPIC
+CFLAGS      ?= -g -O2 -Wall -Wextra -Wswitch-enum -Wwrite-strings -Wshadow
+CFLAGS      += $(REQCFLAGS) $(LUA_CFLAGS) $(SASS_CFLAGS)
+
 LDLIBS       = $(SASS_LDLIBS)
 
 all: sass.so
