@@ -16,8 +16,9 @@
 */
 
 #include <sass_interface.h>
-#include <lauxlib.h>
 #include <lua.h>
+#include <lauxlib.h>
+#include "compat.h"
 
 static const char *const output_style[] = {
     "nested",
@@ -88,11 +89,13 @@ static int compile_file(lua_State *L) {
     }
 }
 
+static const luaL_Reg lib[] = {
+    {"compile", compile},
+    {"compile_file", compile_file},
+    {NULL, NULL}
+};
+
 int luaopen_sass(lua_State *L) {
-    lua_createtable(L, 0, 2);
-    lua_pushcfunction(L, compile);
-    lua_setfield(L, -2, "compile");
-    lua_pushcfunction(L, compile_file);
-    lua_setfield(L, -2, "compile_file");
+    luaL_newlib(L, lib);
     return 1;
 }
