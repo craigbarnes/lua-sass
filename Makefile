@@ -26,11 +26,21 @@ lua-sass-%.tar.gz lua-sass-%.zip: force
 tags: sass.c $(if $(SASS_INCDIR),$(SASS_INCDIR)/sass_interface.h,)
 	ctags --c-kinds=+p $^
 
-check test: all test.lua
-	@LUA_PATH='./?.lua' LUA_CPATH='./?.so' lua test.lua
+# Ensure the tests only load modules from within the current directory
+export LUA_PATH = ./?.lua
+export LUA_CPATH = ./?.so
 
-cppcheck: sass.c
-	@cppcheck --enable=style,performance,portability --std=c89 $^
+check: all test.lua
+	@$(LUA) test.lua
+
+check-install: DESTDIR = TMP
+check-install: export LUA_PATH =
+check-install: export LUA_CPATH = $(DESTDIR)$(LUA_CMOD_DIR)/?.so
+check-install: install check uninstall
+	rmdir -p "$(DESTDIR)$(LUA_CMOD_DIR)"
+
+check-cppcheck: sass.c
+	@cppcheck --enable=style,performance,portability --std=c99 $^
 
 githooks: .git/hooks/pre-commit
 
@@ -44,4 +54,5 @@ clean:
 	$(RM) -r .libs
 
 
-.PHONY: all install uninstall check test cppcheck githooks clean force
+.PHONY: all install uninstall githooks clean force
+.PHONY: check check-install check-cppcheck
