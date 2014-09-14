@@ -33,6 +33,11 @@ export LUA_CPATH = ./?.so
 check: all test.lua
 	@$(LUA) test.lua
 
+check-compat:
+	$(MAKE) -sB check LUA=lua CC=gcc
+	$(MAKE) -sB check LUA=luajit CC=gcc LUA_PC=luajit
+	$(MAKE) -sB check LUA=lua CC=clang
+
 check-install: DESTDIR = TMP
 check-install: export LUA_PATH =
 check-install: export LUA_CPATH = $(DESTDIR)$(LUA_CMOD_DIR)/?.so
@@ -55,4 +60,4 @@ clean:
 
 
 .PHONY: all install uninstall githooks clean force
-.PHONY: check check-install check-cppcheck
+.PHONY: check check-compat check-install check-cppcheck
