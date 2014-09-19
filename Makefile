@@ -54,9 +54,7 @@ githooks: .git/hooks/pre-commit
 	chmod +x $@
 
 clean:
-	$(RM) sass.so sass.o sass.lo sass.la
-	$(RM) lua-sass-*.tar.gz lua-sass-*.zip
-	$(RM) -r .libs
+	$(RM) sass.so sass.o lua-sass-*.tar.gz lua-sass-*.zip
 
 
 .PHONY: all install uninstall githooks clean force

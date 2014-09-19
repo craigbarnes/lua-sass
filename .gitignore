@@ -1,9 +1,6 @@
-local.mk
 *.so
 *.o
-*.lo
-*.la
-.libs/
 lua-sass-*.tar.gz
 lua-sass-*.zip
+local.mk
 tags
