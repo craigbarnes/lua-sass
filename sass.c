@@ -1,5 +1,5 @@
 /*
- Lua bindings for the the libsass library.
+ Lua bindings for the libsass library.
  Copyright (c) 2012-2014 Craig Barnes
 
  Permission to use, copy, modify, and/or distribute this software for any
