@@ -5,13 +5,13 @@ SASS_LDFLAGS ?= $(shell $(PKGCONFIG) --libs-only-L libsass)
 SASS_LDLIBS  ?= $(or $(shell $(PKGCONFIG) --libs-only-l libsass), -lsass)
 SASS_INCDIR  ?= $(shell $(PKGCONFIG) --variable=includedir libsass)
 
-REQCFLAGS     = -std=c99 -pedantic -fPIC
 CFLAGS       ?= -g -O2 -Wall -Wextra -Wswitch-enum -Wwrite-strings -Wshadow
-CFLAGS       += $(REQCFLAGS) $(LUA_CFLAGS) $(SASS_CFLAGS)
-LDFLAGS      += $(SASS_LDFLAGS)
-LDLIBS       ?= $(SASS_LDLIBS)
+XCFLAGS      += -std=c99 -pedantic -fPIC
+XCFLAGS      += $(LUA_CFLAGS) $(SASS_CFLAGS)
+XLDFLAGS     += $(SASS_LDFLAGS) $(SASS_LDLIBS)
 
 all: sass.so
+sass.o: compat.h
 
 install: all
 	$(MKDIR) '$(DESTDIR)$(LUA_CMOD_DIR)'
