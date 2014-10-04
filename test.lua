@@ -12,6 +12,16 @@ do -- Compilation of valid SCSS files should work
     assert(sass.compile_file(filename, "compressed") ==  expected)
 end
 
+do -- Source maps should be disabled by default and enabled when specified
+    local scsstext = "\n\n\n$x: red; a {color: $x / 2}"
+    local expected = "a {\n  color: #800000; }\n"
+    local expected_maps = "/* line 4, source string */\n" .. expected
+    assert(sass.compile(scsstext, "nested") == expected)
+    assert(sass.compile(scsstext, "nested", false) == expected)
+    assert(sass.compile(scsstext, "nested", true) == expected_maps)
+    assert(sass.compile(scsstext, "nested", 1) == expected_maps)
+end
+
 --Errors should return nil, rather than terminating
 assert(not sass.compile "invalid-syntax!")
 assert(not sass.compile_file "non-existant.file")
