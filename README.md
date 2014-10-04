@@ -51,7 +51,7 @@ their [libsass] counterparts:
    (*optional*; defaults to `"nested"`).
 3. `source_maps`: Whether to add CSS [source maps] to the output.
    (*optional*; defaults to `false`).
-4. `include_paths`: A semicolon-delimited string of include paths
+4. `include_paths`: A colon-delimited string of include paths
    (*optional*; defaults to `""`).
 5. `image_path`: A string specifying the path to the images directory
    (*optional*; defaults to `"images"`).
