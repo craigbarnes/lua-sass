@@ -42,18 +42,19 @@ their [libsass] counterparts:
 
 ### compile
 
-    compile(scss, style, comments, includes, images)
+    compile(scss, style, source_maps, include_paths, image_path)
 
 **Parameters:**
 
-1. `scss`: String of [SCSS] input text.
-2. `style`: Output style. Either `"nested"`or `"compressed"`
+1. `scss`: A string of [SCSS] input text.
+2. `style`: The output style. Either `"nested"`or `"compressed"`
    (*optional*; defaults to `"nested"`).
-3. `comments`: Source comment style. One of `"none"`, `"default"` or
-   `"map"` (*optional*; defaults to `"default"`).
-4. `includes`: Semicolon-delimited string of include paths (*optional*;
-   defaults to `""`).
-5. `images`: Image path (*optional*; defaults to `"images"`).
+3. `source_maps`: Whether to add CSS [source maps] to the output.
+   (*optional*; defaults to `false`).
+4. `include_paths`: A semicolon-delimited string of include paths
+   (*optional*; defaults to `""`).
+5. `image_path`: A string specifying the path to the images directory
+   (*optional*; defaults to `"images"`).
 
 **Returns:**
 
@@ -61,7 +62,7 @@ Either a string of CSS on success, or `nil` and an error message on failure.
 
 ### compile_file
 
-    compile_file(filename, style, comments, includes, images)
+    compile_file(filename, style, source_maps, include_paths, image_path)
 
 **Parameters:**
 
@@ -90,7 +91,7 @@ Compiling a file and using explicit error handling:
 
 ```lua
 local sass = require "sass"
-local css, err = sass.compile_file "file.scss"
+local css, err = sass.compile_file("file.scss", "nested", true)
 if css then
     print(css)
 else
@@ -123,3 +124,4 @@ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 [LuaJIT]: http://luajit.org/
 [pkg-config]: https://en.wikipedia.org/wiki/Pkg-config
 [SCSS]: http://sass-lang.com/documentation/file.SASS_REFERENCE.html#syntax
+[source maps]: https://developer.chrome.com/devtools/docs/css-preprocessors
