@@ -22,6 +22,12 @@ do -- Source maps should be disabled by default and enabled when specified
     assert(sass.compile(scsstext, "nested", 1) == expected_maps)
 end
 
+do -- Compilation of UTF-8 input containing multi-byte characters should work
+    local scsstext = "$สี: blue; .สีน้ำเงิน {color: $สี / 4}"
+    local expected = ".สีน้ำเงิน{color:#000040;}"
+    assert(sass.compile(scsstext, "compressed") == expected)
+end
+
 --Errors should return nil, rather than terminating
 assert(not sass.compile "invalid-syntax!")
 assert(not sass.compile_file "non-existant.file")
