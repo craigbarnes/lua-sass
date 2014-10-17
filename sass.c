@@ -35,7 +35,7 @@ static void push_error(lua_State *L, const char *message) {
     lua_pushstring(L, message ? message : "An unknown error occurred");
 }
 
-static struct sass_options check_options(lua_State *L, int i) {
+static struct sass_options check_options(lua_State *L, const int i) {
     return (struct sass_options) {
         .output_style = luaL_checkoption(L, i, "nested", output_style),
         .source_comments = lua_toboolean(L, i+1) ? true : false,
@@ -46,7 +46,7 @@ static struct sass_options check_options(lua_State *L, int i) {
 
 static int compile(lua_State *L) {
     const char *input = luaL_checkstring(L, 1);
-    struct sass_options options = check_options(L, 2);
+    const struct sass_options options = check_options(L, 2);
     struct sass_context *ctx = sass_new_context();
 
     ctx->options = options;
@@ -66,7 +66,7 @@ static int compile(lua_State *L) {
 
 static int compile_file(lua_State *L) {
     const char *filename = luaL_checkstring(L, 1);
-    struct sass_options options = check_options(L, 2);
+    const struct sass_options options = check_options(L, 2);
     struct sass_file_context *ctx = sass_new_file_context();
 
     ctx->options = options;
