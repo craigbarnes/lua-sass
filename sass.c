@@ -36,12 +36,12 @@ static void push_error(lua_State *L, const char *message) {
 }
 
 static struct sass_options check_options(lua_State *L, int i) {
-    struct sass_options options;
-    options.output_style = luaL_checkoption(L, i, "nested", output_style);
-    options.source_comments = lua_toboolean(L, i+1) ? true : false;
-    options.include_paths = luaL_optstring(L, i+2, "");
-    options.image_path = luaL_optstring(L, i+3, "images");
-    return options;
+    return (struct sass_options) {
+        .output_style = luaL_checkoption(L, i, "nested", output_style),
+        .source_comments = lua_toboolean(L, i+1) ? true : false,
+        .include_paths = luaL_optstring(L, i+2, ""),
+        .image_path = luaL_optstring(L, i+3, "images")
+    };
 }
 
 static int compile(lua_State *L) {
