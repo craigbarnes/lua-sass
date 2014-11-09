@@ -1,6 +1,16 @@
 lua-sass
 ========
-Lua bindings for [libsass]
+
+Lua bindings for [libsass].
+
+Status
+------
+
+No stable releases available yet.
+
+*Note*: the upstream libsass library is currently undergoing major API
+refactoring. The lua-sass API will most likely change before the first
+versioned release is ready.
 
 Requirements
 ------------
