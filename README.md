@@ -27,12 +27,35 @@ The Makefile consults [pkg-config] for the following variables:
 * `LUA_CFLAGS`: flags required to find the Lua headers.
 * `LUA_CMOD_DIR`: the directory in which to install the compiled module.
 
-If you don't have [pkg-config] or the relevant .pc files installed, you
-may need to specify these variables manually, for example:
+... using the first `lua*.pc` file found from the following list:
+
+1. `lua` (where `Version` is `>= 5.1`)
+2. `lua52`
+3. `lua5.2`
+4. `lua-5.2`
+5. `lua51`
+6. `lua5.1`
+7. `lua-5.1`
+8. `luajit` (where `Version` is `>= 2.0`)
+
+If you have more than one of these files present and wish to build
+against a specific version of Lua, set the `LUA_PC` variable
+accordingly, for example:
+
+    make LUA_PC=luajit
+    make check LUA_PC=luajit
+    [sudo] make install LUA_PC=luajit
+
+If you don't have [pkg-config] or any of the relevant `.pc` files
+installed, you may need to specify the full set of variables manually,
+for example:
 
     make LUA_CFLAGS=-I/usr/include/lua5.2 SASS_CFLAGS=-I/usr/include/libsass
     make check
     [sudo] make install LUA_CMOD_DIR=/usr/lib/lua/5.2
+
+For convenience, the Makefile first tries to load a `local.mk` file,
+which can be used to store persistent variable overrides.
 
 Usage
 -----
