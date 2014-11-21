@@ -40,14 +40,14 @@ The Makefile consults [pkg-config] for the following variables:
 
 ... using the first `lua*.pc` file found from the following list:
 
-1. `lua` (where `Version` is `>= 5.1`)
+1. `lua` (if `Version >= 5.1`)
 2. `lua52`
 3. `lua5.2`
 4. `lua-5.2`
 5. `lua51`
 6. `lua5.1`
 7. `lua-5.1`
-8. `luajit` (where `Version` is `>= 2.0`)
+8. `luajit` (if `Version >= 2.0`)
 
 If you have more than one of these files present and wish to build
 against a specific version of Lua, set the `LUA_PC` variable
