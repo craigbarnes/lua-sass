@@ -32,9 +32,10 @@ package manager), the following commands should usually suffice:
 
 The Makefile consults [pkg-config] for the following variables:
 
-* `SASS_CFLAGS`: flags required to find the libsass headers.
-* `SASS_LDFLAGS`: flags for linking to libsass (defaults to `-lsass`).
-* `LUA_CFLAGS`: flags required to find the Lua headers.
+* `SASS_CFLAGS`: compiler flags required to find the libsass headers.
+* `SASS_LDFLAGS`: linker flags required to find the libsass library.
+* `SASS_LDLIBS`: linker flags for linking to the libsass library.
+* `LUA_CFLAGS`: compiler flags required to find the Lua headers.
 * `LUA_CMOD_DIR`: the directory in which to install the compiled module.
 
 ... using the first `lua*.pc` file found from the following list:
