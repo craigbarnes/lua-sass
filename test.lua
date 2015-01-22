@@ -21,11 +21,11 @@ do -- Compilation of UTF-8 input containing multi-byte characters should work
     local prefix = '@charset "UTF-8";\n'
     local scsstext = prefix .. "$สี: blue; .สีน้ำเงิน {color: $สี / 4}"
     local expected = prefix .. ".สีน้ำเงิน{color:#000040}"
-    local output = compile(scsstext, "compressed")
+    local output = assert(compile(scsstext, "compressed"))
     assert(output == expected)
 end
 
---Errors should return nil, rather than terminating
+-- Errors should return nil, rather than terminating
 assert(not compile "invalid-syntax!")
 assert(not compile_file "non-existant.file")
 
