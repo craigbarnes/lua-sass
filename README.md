@@ -57,9 +57,8 @@ accordingly, for example:
     make check LUA_PC=luajit
     [sudo] make install LUA_PC=luajit
 
-If you don't have [pkg-config] or any of the relevant `.pc` files
-installed, you may need to specify the full set of variables manually,
-for example:
+If you don't have [pkg-config] or the relevant `.pc` files installed,
+you may need to specify some variables manually, for example:
 
     make LUA_CFLAGS=-I/usr/include/lua5.2 SASS_CFLAGS=-I/usr/include/libsass
     make check
@@ -76,19 +75,13 @@ their [libsass] counterparts:
 
 ### compile
 
-    compile(scss, style, source_maps, include_paths, image_path)
+    compile(scss, style)
 
 **Parameters:**
 
 1. `scss`: A string of [SCSS] input text.
 2. `style`: The output style. Either `"nested"`or `"compressed"`
    (*optional*; defaults to `"nested"`).
-3. `source_maps`: Whether to add CSS [source maps] to the output.
-   (*optional*; defaults to `false`).
-4. `include_paths`: A colon-delimited string of include paths
-   (*optional*; defaults to `""`).
-5. `image_path`: A string specifying the path to the images directory
-   (*optional*; defaults to `"images"`).
 
 **Returns:**
 
@@ -96,15 +89,12 @@ Either a string of CSS on success, or `nil` and an error message on failure.
 
 ### compile_file
 
-    compile_file(filename, style, source_maps, include_paths, image_path)
+    compile_file(filename, style)
 
 **Parameters:**
 
 1. `filename`: An [SCSS] file to read input from.
 2. As above.
-3. As above.
-4. As above.
-5. As above.
 
 **Returns:**
 
@@ -125,7 +115,7 @@ Compiling a file and using explicit error handling:
 
 ```lua
 local sass = require "sass"
-local css, err = sass.compile_file("file.scss", "nested", true)
+local css, err = sass.compile_file("file.scss", "nested")
 if css then
     print(css)
 else
@@ -158,4 +148,3 @@ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 [LuaJIT]: http://luajit.org/
 [pkg-config]: https://en.wikipedia.org/wiki/Pkg-config
 [SCSS]: http://sass-lang.com/documentation/file.SASS_REFERENCE.html#syntax
-[source maps]: https://developer.chrome.com/devtools/docs/css-preprocessors

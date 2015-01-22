@@ -17,16 +17,6 @@ do -- Compilation of valid SCSS files should work
     assert(output == expected)
 end
 
-do -- Source maps should be disabled by default and enabled when specified
-    local scsstext = "\n\n\n$x: red; a {color: $x / 3}"
-    local expected = "a {\n  color: #550000; }\n"
-    local expected_maps = "/* line 4, stdin */\n" .. expected
-    assert(compile(scsstext, "nested") == expected)
-    assert(compile(scsstext, "nested", false) == expected)
-    assert(compile(scsstext, "nested", true) == expected_maps)
-    assert(compile(scsstext, "nested", 1) == expected_maps)
-end
-
 do -- Compilation of UTF-8 input containing multi-byte characters should work
     local prefix = '@charset "UTF-8";\n'
     local scsstext = prefix .. "$สี: blue; .สีน้ำเงิน {color: $สี / 4}"
