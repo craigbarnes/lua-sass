@@ -3,15 +3,6 @@ lua-sass
 
 Lua bindings for [libsass].
 
-Status
-------
-
-No stable releases available yet.
-
-*Note*: the upstream libsass library is currently undergoing major API
-refactoring. The lua-sass API will most likely change before the first
-versioned release is ready.
-
 Requirements
 ------------
 
@@ -40,14 +31,7 @@ The Makefile consults [pkg-config] for the following variables:
 
 ... using the first `lua*.pc` file found from the following list:
 
-1. `lua` (if `Version >= 5.1`)
-2. `lua52`
-3. `lua5.2`
-4. `lua-5.2`
-5. `lua51`
-6. `lua5.1`
-7. `lua-5.1`
-8. `luajit` (if `Version >= 2.0`)
+    lua52 lua5.2 lua-5.2 lua51 lua5.1 lua-5.1 lua luajit
 
 If you have more than one of these files present and wish to build
 against a specific version of Lua, set the `LUA_PC` variable
@@ -126,7 +110,7 @@ end
 [License]
 ---------
 
-Copyright (c) 2012-2014 Craig Barnes
+Copyright (c) 2012-2015 Craig Barnes
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
