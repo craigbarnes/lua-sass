@@ -1,5 +1,6 @@
 local sass = require "sass"
-local compile, compile_file = sass.compile, sass.compile_file
+local compile = assert(sass.compile)
+local compile_file = assert(sass.compile_file)
 local type, assert, write = type, assert, io.write
 local _ENV = nil
 
