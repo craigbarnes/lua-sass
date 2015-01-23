@@ -20,7 +20,7 @@ install: all
 uninstall:
 	$(RM) '$(DESTDIR)$(LUA_CMOD_DIR)/sass.so'
 
-lua-sass-%.tar.gz lua-sass-%.zip: force
+lua-sass-%.tar.gz:
 	git archive --prefix=lua-sass-$*/ -o $@ $*
 
 tags: sass.c $(if $(SASS_INCDIR),$(SASS_INCDIR)/sass_interface.h,)
@@ -44,9 +44,6 @@ check-install: export LUA_CPATH = $(DESTDIR)$(LUA_CMOD_DIR)/?.so
 check-install: install check uninstall
 	rmdir -p "$(DESTDIR)$(LUA_CMOD_DIR)"
 
-check-cppcheck: sass.c
-	@cppcheck --enable=style,performance,portability --std=c99 $^
-
 githooks: .git/hooks/pre-commit
 
 .git/hooks/pre-commit: Makefile
@@ -54,8 +51,8 @@ githooks: .git/hooks/pre-commit
 	chmod +x $@
 
 clean:
-	$(RM) sass.so sass.o lua-sass-*.tar.gz lua-sass-*.zip
+	$(RM) sass.so sass.o lua-sass-*.tar.gz
 
 
-.PHONY: all install uninstall githooks clean force
-.PHONY: check check-compat check-install check-cppcheck
+.PHONY: all install uninstall githooks clean
+.PHONY: check check-compat check-install
