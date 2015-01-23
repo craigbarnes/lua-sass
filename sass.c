@@ -77,5 +77,7 @@ static const luaL_Reg lib[] = {
 
 int luaopen_sass(lua_State *L) {
     luaL_newlib(L, lib);
+    lua_pushstring(L, libsass_version());
+    lua_setfield(L, -2, "LIBSASS_VERSION");
     return 1;
 }

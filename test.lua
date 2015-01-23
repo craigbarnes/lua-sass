@@ -1,6 +1,6 @@
 local sass = require "sass"
 local compile, compile_file = sass.compile, sass.compile_file
-local assert, write = assert, io.write
+local type, assert, write = type, assert, io.write
 local _ENV = nil
 
 do -- Compilation of valid SCSS strings should work
@@ -28,5 +28,8 @@ end
 -- Errors should return nil, rather than terminating
 assert(not compile "invalid-syntax!")
 assert(not compile_file "non-existant.file")
+
+-- Version information should be available
+assert(type(sass.LIBSASS_VERSION) == "string")
 
 write "All tests passed\n"
