@@ -22,7 +22,7 @@
 #include <lauxlib.h>
 #include "compat.h"
 
-static const char *const output_style[] = {
+static const char *const output_styles[] = {
     "nested",
     "expanded",
     "compact",
@@ -33,11 +33,11 @@ static const char *const output_style[] = {
 static int compile(lua_State *L) {
     // FIXME: This should really be const char* -- both here and in libsass
     char *input = (char *)luaL_checkstring(L, 1);
-    const int style = luaL_checkoption(L, 2, "nested", output_style);
+    const int output_style = luaL_checkoption(L, 2, "nested", output_styles);
     struct Sass_Data_Context *data_ctx = sass_make_data_context(input);
     struct Sass_Context *ctx = sass_data_context_get_context(data_ctx);
     struct Sass_Options *options = sass_context_get_options(ctx);
-    sass_option_set_output_style(options, style);
+    sass_option_set_output_style(options, output_style);
     if (sass_compile_data_context(data_ctx) == 0) {
         lua_pushstring(L, sass_context_get_output_string(ctx));
         sass_delete_data_context(data_ctx);
@@ -52,11 +52,11 @@ static int compile(lua_State *L) {
 
 static int compile_file(lua_State *L) {
     const char *filename = luaL_checkstring(L, 1);
-    const int style = luaL_checkoption(L, 2, "nested", output_style);
+    const int output_style = luaL_checkoption(L, 2, "nested", output_styles);
     struct Sass_File_Context *file_ctx = sass_make_file_context(filename);
     struct Sass_Context *ctx = sass_file_context_get_context(file_ctx);
     struct Sass_Options *options = sass_context_get_options(ctx);
-    sass_option_set_output_style(options, style);
+    sass_option_set_output_style(options, output_style);
     if (sass_compile_file_context(file_ctx) == 0) {
         lua_pushstring(L, sass_context_get_output_string(ctx));
         sass_delete_file_context(file_ctx);
