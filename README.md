@@ -59,7 +59,7 @@ their [libsass] counterparts:
 
 ### compile
 
-    compile(scss, style)
+    local css, err = sass.compile(scss, style)
 
 **Parameters:**
 
@@ -73,7 +73,7 @@ Either a string of CSS on success, or `nil` and an error message on failure.
 
 ### compile_file
 
-    compile_file(filename, style)
+    local css, err = sass.compile_file(filename, style)
 
 **Parameters:**
 
