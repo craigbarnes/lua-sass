@@ -17,7 +17,9 @@
 
 #include <stddef.h>
 #include <stdbool.h>
-#include <sass_context.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sass/context.h>
 #include <lua.h>
 #include <lauxlib.h>
 #include "compat.h"
@@ -31,10 +33,22 @@ static const char *const output_styles[] = {
 };
 
 static int compile(lua_State *L) {
-    // FIXME: This should really be const char* -- both here and in libsass
-    char *input = (char *)luaL_checkstring(L, 1);
+    size_t len;
+    const char *str = luaL_checklstring(L, 1, &len);
+
+    // libsass insists on owning (and freeing) the passed in string,
+    // so the string on the Lua heap must be copied here.
+    char *copy = malloc(len + 1);
+    if (!copy) {
+        lua_pushnil(L);
+        lua_pushliteral(L, "malloc() failed");
+        return 2;
+    }
+    strncpy(copy, str, len);
+    copy[len] = '\0';
+
     const int output_style = luaL_checkoption(L, 2, "nested", output_styles);
-    struct Sass_Data_Context *data_ctx = sass_make_data_context(input);
+    struct Sass_Data_Context *data_ctx = sass_make_data_context(copy);
     struct Sass_Context *ctx = sass_data_context_get_context(data_ctx);
     struct Sass_Options *options = sass_context_get_options(ctx);
     sass_option_set_output_style(options, output_style);
