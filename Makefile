@@ -1,14 +1,13 @@
 include lualib.mk
 
-SASS_CFLAGS  ?= $(shell $(PKGCONFIG) --cflags libsass)
+SASS_CFLAGS ?= $(shell $(PKGCONFIG) --cflags libsass)
 SASS_LDFLAGS ?= $(shell $(PKGCONFIG) --libs-only-L libsass)
-SASS_LDLIBS  ?= $(or $(shell $(PKGCONFIG) --libs-only-l libsass), -lsass)
-SASS_INCDIR  ?= $(shell $(PKGCONFIG) --variable=includedir libsass)
+SASS_LDLIBS ?= $(or $(shell $(PKGCONFIG) --libs-only-l libsass), -lsass)
 
-CFLAGS       ?= -g -O2 -Wall -Wextra -Wswitch-enum -Wwrite-strings -Wshadow
-XCFLAGS      += -std=c99 -pedantic -fPIC
-XCFLAGS      += $(LUA_CFLAGS) $(SASS_CFLAGS)
-XLDFLAGS     += $(SASS_LDFLAGS) $(SASS_LDLIBS)
+CFLAGS ?= -g -O2 -Wall -Wextra -Wswitch-enum -Wwrite-strings -Wshadow
+XCFLAGS += -std=c99 -pedantic -fPIC
+XCFLAGS += $(LUA_CFLAGS) $(SASS_CFLAGS)
+XLDFLAGS += $(SASS_LDFLAGS) $(SASS_LDLIBS)
 
 all: sass.so
 sass.o: compat.h
@@ -22,9 +21,6 @@ uninstall:
 
 lua-sass-%.tar.gz:
 	git archive --prefix=lua-sass-$*/ -o $@ $*
-
-tags: sass.c $(if $(SASS_INCDIR),$(SASS_INCDIR)/sass_interface.h,)
-	ctags --c-kinds=+p $^
 
 # Ensure the tests only load modules from within the current directory
 export LUA_PATH = ./?.lua
