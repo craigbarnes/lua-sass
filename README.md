@@ -1,11 +1,3 @@
-NOTICE
-======
-
-**This project is unmaintained and obsolete**. The code no longer works
-with recent libsass releases and will receive no further updates.
-
-- - -
-
 lua-sass
 ========
 
