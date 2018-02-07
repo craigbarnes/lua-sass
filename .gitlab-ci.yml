@@ -4,8 +4,6 @@ tests:
     script:
         - apt-get update && apt-get -y install libsass-dev
         - for v in 5.3 5.2 5.1; do
-              luarocks-$v make
-                  SASS_INCDIR=/usr/include/x86_64-linux-gnu
-                  SASS_LIBDIR=/usr/lib/x86_64-linux-gnu
+              luarocks-$v make SASS_LIBDIR=/usr/lib/x86_64-linux-gnu
               && lua$v test.lua ;
           done
