@@ -13,9 +13,7 @@ Requirements
 Installation
 ------------
 
-    git clone https://github.com/craigbarnes/lua-sass.git
-    cd lua-sass
-    [sudo] luarocks make sass-scm-1.rockspec
+    luarocks install sass
 
 Usage
 -----
