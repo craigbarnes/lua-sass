@@ -42,7 +42,7 @@ static int compile(lua_State *L) {
     /* libsass insists on owning (and freeing) the passed in string,
        so the string on the Lua heap must be copied here */
     char *copy = malloc(len + 1);
-    if (!copy) {
+    if (copy == NULL) {
         lua_pushnil(L);
         lua_pushliteral(L, "malloc() failed");
         return 2;
