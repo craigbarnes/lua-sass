@@ -74,6 +74,6 @@ end
 ```
 
 
-[libsass]: https://github.com/hcatlin/libsass
-[Lua]: http://www.lua.org/
-[SCSS]: http://sass-lang.com/documentation/file.SASS_REFERENCE.html#syntax
+[libsass]: https://sass-lang.com/libsass
+[Lua]: https://www.lua.org/
+[SCSS]: https://sass-lang.com/documentation/file.SASS_REFERENCE.html#syntax
