@@ -16,7 +16,6 @@
 */
 
 #include <stddef.h>
-#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sass/context.h>
