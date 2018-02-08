@@ -9,6 +9,10 @@ XCFLAGS += -std=c99 -pedantic -fPIC
 XCFLAGS += $(LUA_CFLAGS) $(SASS_CFLAGS)
 XLDFLAGS += $(SASS_LDFLAGS) $(SASS_LDLIBS)
 
+default:
+	@echo 'The Makefile is for development only.' >&2
+	@echo 'Use "luarocks make" to install.' >&2
+
 all: sass.so
 sass.o: compat.h
 
@@ -50,5 +54,5 @@ clean:
 	$(RM) sass.so sass.o lua-sass-*.tar.gz
 
 
-.PHONY: all install uninstall githooks clean
+.PHONY: default all install uninstall githooks clean
 .PHONY: check check-compat check-install
