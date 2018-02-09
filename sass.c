@@ -91,7 +91,7 @@ static const luaL_Reg lib[] = {
     {NULL, NULL}
 };
 
-int luaopen_sass(lua_State *L) {
+EXPORT int luaopen_sass(lua_State *L) {
     luaL_newlib(L, lib);
     lua_pushstring(L, libsass_version());
     lua_setfield(L, -2, "LIBSASS_VERSION");
