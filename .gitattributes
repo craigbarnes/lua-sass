@@ -4,6 +4,7 @@
 *.lua code
 *.md code
 *.scss code
+*.rockspec code linguist-language=lua
 
 .distinfo export-subst
 .git* export-ignore
