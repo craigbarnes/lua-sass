@@ -3,12 +3,12 @@ version = "scm-1"
 
 description = {
     summary = "Lua bindings for libsass",
-    homepage = "https://github.com/craigbarnes/lua-sass",
+    homepage = "https://gitlab.com/craigbarnes/lua-sass",
     license = "ISC"
 }
 
 source = {
-    url = "git+https://github.com/craigbarnes/lua-sass.git",
+    url = "git+https://gitlab.com/craigbarnes/lua-sass.git",
     branch = "master"
 }
 
