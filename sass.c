@@ -47,8 +47,7 @@ static int compile(lua_State *L) {
         lua_pushliteral(L, "malloc() failed");
         return 2;
     }
-    strncpy(copy, str, len);
-    copy[len] = '\0';
+    memcpy(copy, str, len + 1);
 
     data_ctx = sass_make_data_context(copy);
     ctx = sass_data_context_get_context(data_ctx);
