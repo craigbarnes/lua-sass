@@ -9,5 +9,9 @@
 #ifdef _WIN32
 # define EXPORT __declspec(dllexport)
 #else
-# define EXPORT
+# ifdef __GNUC__
+#  define EXPORT __attribute__((__visibility__("default")))
+# else
+#  define EXPORT
+# endif
 #endif
