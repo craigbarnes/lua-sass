@@ -65,9 +65,10 @@ Compiling a file and using explicit error handling:
 local sass = require "sass"
 local css, err = sass.compile_file("file.scss", "nested")
 if css then
-    print(css)
+    io.stdout:write(css)
 else
-    io.stderr:write("Error: ", err, "\n")
+    io.stderr:write(err)
+    os.exit(1)
 end
 ```
 
