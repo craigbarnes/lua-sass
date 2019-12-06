@@ -18,7 +18,7 @@ end
 
 -- Errors should return nil, rather than terminating
 assert(not compile "invalid-syntax!")
-assert(not compile_file "non-existant.file")
+assert(not compile_file "non-existent.file")
 
 -- Version information should be available
 assert(type(sass.LIBSASS_VERSION) == "string")
