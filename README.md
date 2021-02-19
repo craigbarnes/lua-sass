@@ -1,3 +1,19 @@
+Deprecated
+----------
+
+The upstream [libsass] library was [declared deprecated] on 27th
+October 2020:
+
+> Warning: LibSass is deprecated. While it will continue to receive
+> maintenance releases indefinitely, there are no plans to add additional
+> features or compatibility with any new CSS or Sass features.
+
+For all intents and purposes this means that lua-sass is also
+deprecated. No further development will be done for any reason
+other than bug fixes.
+
+- - -
+
 lua-sass
 ========
 
@@ -74,5 +90,6 @@ end
 
 
 [libsass]: https://sass-lang.com/libsass
+[declared deprecated]: https://github.com/sass/libsass/commit/87292ae4b2167401b505be1188d3b82861ab3253
 [Lua]: https://www.lua.org/
 [SCSS]: https://sass-lang.com/documentation/file.SASS_REFERENCE.html#syntax
